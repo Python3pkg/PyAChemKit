@@ -5,7 +5,7 @@ def data_to_lines(data):
     #calculate headings
     headings = set()
     for y in data:
-        headings.update(data[y].keys())
+        headings.update(list(data[y].keys()))
     headings = sorted(headings)
     
     #output header
@@ -41,7 +41,7 @@ def data_from_lines(lines):
             assert y not in data
             data[y] = {}
             assert len(row) >= len(headings)+1
-            for i in xrange(1, len(headings)):
+            for i in range(1, len(headings)):
                 data[y][headings[i-1]] = row[i]
     return data
     

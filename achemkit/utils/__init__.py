@@ -2,6 +2,6 @@
 Various utility functions and classes.
 """
 
-import simpledot
-from utils import *
-import bag
+from . import simpledot
+from .utils import *
+from . import bag

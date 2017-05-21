@@ -8,7 +8,7 @@ Also contains some convenience functions for these reactors.
 import random
 import itertools
 try:
-    import cPickle as pickle
+    import pickle as pickle
 except ImportError:
     import pickle as pickle
 
@@ -80,7 +80,7 @@ class ReactorEnumerate(Reactor):
             results = umpf.map(self.achem.all_reactions, untested)
             while len(self.mols) < self.maxmols:
                 try:
-                    reactions = results.next()
+                    reactions = next(results)
                 except StopIteration:
                     break
                 else:
@@ -182,7 +182,7 @@ class ReactorStepwise(Reactor):
                     break
                     
             allproducts = umpf.map(self.achem.react, allreactants)
-            results = itertools.izip(allreactants, allproducts)
+            results = zip(allreactants, allproducts)
             for reactants, products in results:
                 e = Event(self.time, reactants, products)
                 newmols += tuple(products)

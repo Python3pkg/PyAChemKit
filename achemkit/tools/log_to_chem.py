@@ -35,7 +35,7 @@ def main():
         #read from provided filename
         b = Bucket.from_filename(options.infile)
 
-    newevents = filter(lambda x: x.time > options.after, b.events)
+    newevents = [x for x in b.events if x.time > options.after]
     nb = Bucket(newevents)
     chemstr = str(nb.reactionnet)
 

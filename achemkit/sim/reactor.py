@@ -31,7 +31,7 @@ class Reactor(object):
         This is an abstract method that must be implemented by subclassess. May
         take parameters as needed.
         """
-        raise NotImplementedError, "Reactor is an abstract class"
+        raise NotImplementedError("Reactor is an abstract class")
     
     def to_disk(self, filename):
         """

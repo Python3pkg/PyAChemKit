@@ -88,10 +88,10 @@ class SimpleDot(DictMixin):
 
     def __getitem__(self, key):
         if key not in self.keylist:
-            raise LookupError, key
+            raise LookupError(key)
         elif self.keylist.count(key) > 1:
             #there may be multiple edges in the same graph
-            return tuple((self.content[i] for i in xrange(len(self.keylist)) if self.keylist[i] == key))
+            return tuple((self.content[i] for i in range(len(self.keylist)) if self.keylist[i] == key))
         else:
             return self.content[self.keylist.index(key)]
 
@@ -99,7 +99,7 @@ class SimpleDot(DictMixin):
         if key not in self.keylist:
             self.add(key, value)
         elif self.keylist.count(key) > 1:
-            raise TypeError, "setitem cannot be used with multi-use keys"
+            raise TypeError("setitem cannot be used with multi-use keys")
         else:
             self.content[self.keylist.index(key)] = value
 
@@ -110,7 +110,7 @@ class SimpleDot(DictMixin):
         elif key not in self.keylist:
             raise KeyError
         elif self.keylist.count(key) > 1:
-            raise TypeError, "delete cannot be used with multi-use keys"
+            raise TypeError("delete cannot be used with multi-use keys")
         else:
             i = self.keylist.index(key)
         del self.keylist[i]
@@ -132,7 +132,7 @@ class SimpleDot(DictMixin):
         Designed for multiple edges, but will also work with single edges, nodes, or subgraphs.
         This provides a unified interface.
         """
-        return tuple((self.content[i] for i in xrange(len(self.keylist)) if self.keylist[i] == key))
+        return tuple((self.content[i] for i in range(len(self.keylist)) if self.keylist[i] == key))
         
     def nodes(self):
         for key in self:
@@ -168,8 +168,8 @@ class SimpleDot(DictMixin):
             else:
                 dot += "graph "+self.name+" {\n"
 
-        for i in xrange(len(self.keys())):
-            key = self.keys()[i]
+        for i in range(len(list(self.keys()))):
+            key = list(self.keys())[i]
             #nodes are a string
             #edges are tuples of length two (from, to)
             #subgraphs are a string

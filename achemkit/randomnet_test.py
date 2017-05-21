@@ -31,7 +31,7 @@ class TestUniform(unittest.TestCase):
         self.assertEqual(net.seen, self.mols)
         
     def test_nmols_dict(self):
-        mols = dict(zip(self.mols, range(1,len(self.mols)+1)))
+        mols = dict(list(zip(self.mols, list(range(1,len(self.mols)+1)))))
         net = Uniform(mols, 50, 2, 2)
         net = Uniform(mols, 50, 2, 2, rng = self.rng)
         self.assertEqual(net.seen, self.mols)

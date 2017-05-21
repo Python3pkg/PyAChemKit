@@ -9,7 +9,7 @@ Of particular note are the alternative constructors of :py:class:`~achemkit.reac
 #regular expression to detect reaction when reading from string-based inputs
 import re
 #used to converge from_string into from_file paradigm
-import StringIO
+import io
 
 from achemkit import OrderedFrozenBag, FrozenBag, Bag
 
@@ -37,7 +37,7 @@ class ReactionNetwork(object):
     _hash = None
 
     def __init__(self, rates):
-        for rate in rates.values():
+        for rate in list(rates.values()):
             assert rate > 0.0
         self._rates = {}
         for reaction in rates:
@@ -158,7 +158,7 @@ class ReactionNetwork(object):
         """
         Wrapper around :py:meth:`achemkit.reactionnet.ReactionNetwork.from_file` that uses :class:`~StringIO.StringIO`.
         """
-        return cls.from_file(StringIO.StringIO(instr))
+        return cls.from_file(io.StringIO(instr))
 
     @classmethod
     def from_filename(cls, infilename):
@@ -196,7 +196,7 @@ class ReactionNetwork(object):
                 splitline = re.split(repattern, line)
 
                 if len(splitline) != 3:
-                    raise ValueError, "Invalid reaction at line %d : %s" % (linecount, rawline)
+                    raise ValueError("Invalid reaction at line %d : %s" % (linecount, rawline))
 
                 inputstring, rate, outputstring = splitline
 
@@ -224,16 +224,16 @@ class ReactionNetwork(object):
                 outputs = OrderedFrozenBag(outputs)
 
                 if (inputs, outputs) in rates:
-                    raise ValueError, "Duplicate reaction at line %d : %s" % (linecount, rawline)
+                    raise ValueError("Duplicate reaction at line %d : %s" % (linecount, rawline))
                     break
 
                 if inputs == outputs:
-                    raise ValueError, "Invalid reaction at line %d : %s (%s -> %s)" % (linecount, rawline, str(inputs), str(outputs))
+                    raise ValueError("Invalid reaction at line %d : %s (%s -> %s)" % (linecount, rawline, str(inputs), str(outputs)))
                     break
 
                 rates[(inputs, outputs)] = rate
 
             else:
-                raise ValueError, "Invalid reaction at line %d : %s" % (linecount, rawline)
+                raise ValueError("Invalid reaction at line %d : %s" % (linecount, rawline))
         return cls(rates)
         

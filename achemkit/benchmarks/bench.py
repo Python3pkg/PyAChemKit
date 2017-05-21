@@ -11,7 +11,7 @@ def benchmark(func, *args, **kwargs):
     starttime = time.clock()
     func(*args, **kwargs)
     endtime = time.clock()
-    print func.__name__, "%7.3fsec"%(endtime-starttim)
+    print(func.__name__, "%7.3fsec"%(endtime-starttim))
     
 
 if __name__ == "__main__":

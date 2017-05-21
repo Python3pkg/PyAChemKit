@@ -95,7 +95,7 @@ class Bucket(object):
             
             splitted = line.split()
             if len(splitted) < 3:
-                raise ValueError, "invalid reaction: "+reaction
+                raise ValueError("invalid reaction: "+reaction)
             
             walltime = splitted[0]
             simtime = splitted[1]
@@ -107,7 +107,7 @@ class Bucket(object):
             match = re.search(r"^(.*?)-([0-9]*\.?[0-9]*)>(.*?)$", reaction)
             
             if match == None:
-                raise ValueError, "invalid reaction: "+reaction
+                raise ValueError("invalid reaction: "+reaction)
                 
             reactants, rateconstant, products = match.groups()
 

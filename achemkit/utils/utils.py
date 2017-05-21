@@ -32,16 +32,16 @@ def get_sample(distribution, rng=None):
         total = sum(distribution.values())
         target = rng.random()*total
         i = 0
-        score = distribution.values()[i]
-        hit = distribution.keys()[i]
+        score = list(distribution.values())[i]
+        hit = list(distribution.keys())[i]
         while score < target:
             i += 1
-            score += distribution.values()[i]
-            hit = distribution.keys()[i]
+            score += list(distribution.values())[i]
+            hit = list(distribution.keys())[i]
         return hit
         
 def get_samples(distribution, count, rng):
-    return [get_sample(distribution, rng) for x in xrange(count)]
+    return [get_sample(distribution, rng) for x in range(count)]
 
 def long_subseq(data):
     """
@@ -84,7 +84,7 @@ def memory_free():
 
         return int(memoryStatus.dwAvailPhys/1024**2)
     else:
-        raise NotImplementedError, "Will only work with Linux or Windows"
+        raise NotImplementedError("Will only work with Linux or Windows")
 
 
 

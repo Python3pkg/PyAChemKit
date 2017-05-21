@@ -29,7 +29,7 @@ def get_synthesis(rn):
         
     Works as an iterator filter.
     """
-    for reaction in itertools.ifilter(lambda (reactants, products):len(products) < len(reactants), rn.reactions):
+    for reaction in filter(lambda reactants_products:len(reactants_products[1]) < len(reactants_products[0]), rn.reactions):
         yield reaction
 
 def has_synthesis(rn):
@@ -49,7 +49,7 @@ def get_decomposition(rn):
 
     Works as an iterator filter.
     """
-    for reaction in itertools.ifilter(lambda (reactants, products):len(products) > len(reactants), rn.reactions):
+    for reaction in filter(lambda reactants_products1:len(reactants_products1[1]) > len(reactants_products1[0]), rn.reactions):
         yield reaction
 
 def has_decomposition(rn):
@@ -131,7 +131,7 @@ def get_reversible(rn):
         AB -> A + B
 
     """
-    for reaction in itertools.ifilter(lambda (reactants, products):(products, reactants) in rn.reactions, rn.reactions):
+    for reaction in filter(lambda reactants_products2:(reactants_products2[1], reactants_products2[0]) in rn.reactions, rn.reactions):
         yield reaction
 
 def has_reversible(rn):
@@ -153,9 +153,9 @@ def get_divergence(rn):
         AB + C -> A + B + C
     """
     reactions = list(rn.reactions)
-    for i in xrange(len(reactions)):
+    for i in range(len(reactions)):
         reaction = reactions[i]
-        for j in xrange(i+1, len(reactions)):
+        for j in range(i+1, len(reactions)):
             if reactions[j][0] == reaction[0]:
                 yield reaction
                 break

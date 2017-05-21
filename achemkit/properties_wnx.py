@@ -66,7 +66,7 @@ def make_catalysis_graph(rn):
         for catalyst in catalysts:
             count = min(reactants.count(catalyst), products.count(catalyst))
             assert count > 0
-            for i in xrange(count):
+            for i in range(count):
                 reactants.remove(catalyst)
                 products.remove(catalyst)
         
@@ -123,7 +123,7 @@ def filter_loops(loops):
     """
     loops = sorted(loops, lambda x, y: cmp(len(x), len(y)), reverse=True)
         
-    for loop in itertools.imap(_filter_loops, xrange(len(loops)), [loops]*len(loops)):
+    for loop in map(_filter_loops, range(len(loops)), [loops]*len(loops)):
         if loop is not None:
             yield loop
             
@@ -137,15 +137,15 @@ def _filter_loops(i, loops):
             return False
 
         a = a+a
-        for i in xrange(len(b)):
+        for i in range(len(b)):
             b_test = b[i:]+b[:i]
-            for j in xrange(len(a)-len(b)):
+            for j in range(len(a)-len(b)):
                 if a[j:j+len(b)] == b_test:
                     return True
         return False
         
     contains = False
-    for j in xrange(i+1, len(loops)):
+    for j in range(i+1, len(loops)):
         if i != j and len(loops[j]) < len(loops[i]) and loop_contains(loops[i], loops[j]):
 	        contains = True
 	        break

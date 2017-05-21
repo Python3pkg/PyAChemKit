@@ -17,7 +17,7 @@ from achemkit import OrderedFrozenBag
 def combinations_with_replacement(iterable, r):
     pool = tuple(iterable)
     n = len(pool)
-    for indices in itertools.product(range(n), repeat=r):
+    for indices in itertools.product(list(range(n)), repeat=r):
         if sorted(indices) == list(indices):
             yield tuple(pool[i] for i in indices)
 
@@ -88,7 +88,7 @@ def Uniform(nmols, nreactions, nreactants, nproducts, rates = 1.0, cls = Reactio
         rng = random.Random(random.random())
 
     if isinstance(nmols, int):
-        nmols = ["M%d"%i for i in xrange(nmols)]
+        nmols = ["M%d"%i for i in range(nmols)]
 
     nreactions = get_sample(nreactions, rng)
     
@@ -97,23 +97,23 @@ def Uniform(nmols, nreactions, nreactants, nproducts, rates = 1.0, cls = Reactio
         #its a tuple not a generator because its the same variable name
         newnreactants = []
         newnproducts = []
-        for nreactant, nproduct in [get_sample(nreactants, rng) for i in xrange(nreactions)]:
+        for nreactant, nproduct in [get_sample(nreactants, rng) for i in range(nreactions)]:
             newnreactants.append(nreactant)
             newnproducts.append(nproduct)
         nproducts = newnreactants
         nreactants = newnproducts
     else:
         #its a tuple not a generator because its the same variable name
-        nreactants = [get_sample(nreactants, rng) for i in xrange(nreactions)]
-        nproducts = [get_sample(nproducts, rng) for i in xrange(nreactions)]
+        nreactants = [get_sample(nreactants, rng) for i in range(nreactions)]
+        nproducts = [get_sample(nproducts, rng) for i in range(nreactions)]
 
-    rates = [get_sample(rates, rng) for i in xrange(nreactions)]
+    rates = [get_sample(rates, rng) for i in range(nreactions)]
 
     outrates = {}
     for thisnreactants, thisnproducts, thisrate in zip(nreactants, nproducts, rates):
 
-        reactants = [get_sample(nmols, rng)  for j in xrange(thisnreactants)]
-        products = [get_sample(nmols, rng)  for j in xrange(thisnproducts)]
+        reactants = [get_sample(nmols, rng)  for j in range(thisnreactants)]
+        products = [get_sample(nmols, rng)  for j in range(thisnproducts)]
         reactants = OrderedFrozenBag(reactants)
         products = OrderedFrozenBag(products)
 
@@ -183,7 +183,7 @@ def Linear(natoms, maxlength, pform, pbreak, directed = True, rates = 1.0, cls =
     #of the form Abc where first letter is capitalized
     alpha = "abcdefghijklmnopqrstuvwxyz"
     assert natoms > 0 
-    for i in xrange(natoms):
+    for i in range(natoms):
         name = alpha[i%len(alpha)]
         while i >= len(alpha):
             i /= len(alpha)
@@ -197,7 +197,7 @@ def Linear(natoms, maxlength, pform, pbreak, directed = True, rates = 1.0, cls =
 
     def mol_to_atoms(mol, cache = {}):
         if mol not in cache:
-            cache[mol] = tuple(filter(lambda x: len(x) > 0, re.split(r"([A-Z][a-z]*)", mol)))
+            cache[mol] = tuple([x for x in re.split(r"([A-Z][a-z]*)", mol) if len(x) > 0])
         return cache[mol] 
 
     def mol_len(mol):
@@ -229,7 +229,7 @@ def Linear(natoms, maxlength, pform, pbreak, directed = True, rates = 1.0, cls =
         new = []
         #decomposition
         for z in oldnew:
-            for i in xrange(1, mol_len(z)):
+            for i in range(1, mol_len(z)):
                 if rng.random() < pbreak:
                     a = atoms_to_mol(mol_to_atoms(z)[:i])
                     b = atoms_to_mol(mol_to_atoms(z)[i:])

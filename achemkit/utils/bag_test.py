@@ -9,7 +9,7 @@ sys.path.append(".")
 import unittest
 from achemkit.utils.bag import *
 try:
-    import cPickle as pickle
+    import pickle as pickle
 except ImportError:
     import pickle
 

@@ -134,7 +134,7 @@ def net_to_dot(net, names=None, rates=None, shown=(), hidden =()):
             attribs["label"] = " "
             attribs["shape"] = "circle"
         else:
-            raise ValueError, 'names must be one of "full", "id", or "blank"'
+            raise ValueError('names must be one of "full", "id", or "blank"')
 
         if molspecies in hidden:
             attribs["label"] = " "
@@ -169,7 +169,7 @@ def net_to_dot(net, names=None, rates=None, shown=(), hidden =()):
         if rates == True or (rates is None and net.rate(reactants, products) != 1.0):
             dot[r_id]["label"] = net.rate(reactants, products)
 
-        for i in xrange(len(reactants)):
+        for i in range(len(reactants)):
             reactant = reactants[i]
             m_id = "M%d" % net.seen.index(reactant)
             #see if this is a catalyst
@@ -189,7 +189,7 @@ def net_to_dot(net, names=None, rates=None, shown=(), hidden =()):
             #therefore use the add method
             dot.add((m_id, r_id), attribs)
 
-        for i in xrange(len(products)):
+        for i in range(len(products)):
             product = products[i]
             m_id = "M%d" % net.seen.index(product)
             #see if this is a catalyst
